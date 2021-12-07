@@ -20,7 +20,6 @@ class CreateTableUsers extends Migration
             $table->string('document_number',20)->unique();
             $table->string('phone',30);
             $table->string('email',255)->unique();
-            $table->string('password',255);
             $table->timestamps();
             $table->softDeletes();
         });
