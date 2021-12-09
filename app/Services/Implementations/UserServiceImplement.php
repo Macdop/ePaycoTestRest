@@ -32,4 +32,16 @@ class UserServiceImplement implements UserServiceInterface
       return $user->id;
    }
 
+   /**
+    * Check user data by document number and phone number
+    */
+   function checkUserData($document_number, $phone_number)
+   {
+      $user = $this->model->where('document_number', $document_number)
+         ->where('phone', $phone_number)
+         ->first();
+         
+      return $user;
+   }
+
 }

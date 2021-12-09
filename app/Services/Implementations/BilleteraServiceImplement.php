@@ -24,4 +24,14 @@ class BilleteraServiceImplement implements BilleteraServiceInterface
       $this->model->save();
    }
 
+   /**
+    * Register a deposit
+    */
+   function registerDeposit(float $value,int $user)
+   {
+      $billetera = $this->model->where('user_id', $user)->first();
+      $billetera->saldo = $billetera->saldo + $value;
+      $billetera->save();
+   }
+
 }

@@ -16,5 +16,11 @@ interface UserServiceInterface
    */
    function getUserIdByDocumentNumber(string $documentNumber);
    
+   /**
+   * @param string $document_number
+   * @param string $phone_number
+   * @return array; 
+   */
+   function checkUserData(string $document_number,string $phone_number);
    
 }
