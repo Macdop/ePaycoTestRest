@@ -17,4 +17,10 @@ interface BilleteraServiceInterface
    */
    function registerDeposit(float $value,int $user);
 
+   /**
+   * @param int $user
+   * @return void; 
+   */
+  function checkWallet(int $user);
+
 }

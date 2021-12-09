@@ -52,7 +52,26 @@ class BilleteraController extends Controller
         
         $this->billeteraService->registerDeposit($this->request->value,$user->id);
         $response = response(['success' => true,'cod_error' => 00,'message_error' => 'Sin error',],201);
-                
+        
         return $response;
     }
+    
+    public function checkWallet()
+    {
+        $userService = new UserServiceImplement();
+        $user = $userService->checkUserData($this->request->document_number,$this->request->phone);
+        
+        if(!$user)
+        {
+            $response = response(['success' => false,'cod_error' => 422,'message_eror' => 'Los datos del usuario no coinciden'],422);
+            return $response;
+        }
+        
+        $walletBalance = $this->billeteraService->checkWallet($user->id);
+               
+        $response = response(['success' => true,'balance' => $walletBalance,'cod_error' => 00,'message_error' => 'Sin error',],200);
+        
+        return $response;
+    }
+    
 }

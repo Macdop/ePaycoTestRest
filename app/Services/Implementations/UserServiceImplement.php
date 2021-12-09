@@ -40,7 +40,6 @@ class UserServiceImplement implements UserServiceInterface
       $user = $this->model->where('document_number', $document_number)
          ->where('phone', $phone_number)
          ->first();
-         
       return $user;
    }
 

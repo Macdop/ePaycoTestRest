@@ -34,4 +34,13 @@ class BilleteraServiceImplement implements BilleteraServiceInterface
       $billetera->save();
    }
 
+   /**
+    * Check Wallet
+    */
+   function checkWallet(int $user)
+   {
+      $billetera = $this->model->where('user_id', $user)->first();
+      return $billetera->saldo;
+   }
+
 }

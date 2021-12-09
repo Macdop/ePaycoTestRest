@@ -28,6 +28,7 @@ $router->group(['prefix' => '/v1'], function () use ($router){
     $router->group(['prefix' => '/billetera'], function () use ($router){
         
         $router->post('/recargar','BilleteraController@registerDeposit');
+        $router->post('/consultar','BilleteraController@checkWallet');
     });
     
 });
