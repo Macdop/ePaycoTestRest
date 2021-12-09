@@ -29,7 +29,10 @@ class UserServiceImplement implements UserServiceInterface
    function getUserIdByDocumentNumber($document_number)
    {
       $user = $this->model->where('document_number', $document_number)->first();
-      return $user->id;
+      if ($user) {
+         return $user->id;
+      }
+      return 0;
    }
 
    /**
@@ -41,6 +44,17 @@ class UserServiceImplement implements UserServiceInterface
          ->where('phone', $phone_number)
          ->first();
       return $user;
+   }
+
+   /**
+    * Set a get user token
+    */
+   function setUserToken($user_id)
+   {
+      $user = $this->model->find($user_id);
+      $user->token = $token = rand(100000, 999999);
+      $user->save();
+      return $token;
    }
 
 }

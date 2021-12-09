@@ -23,4 +23,10 @@ interface UserServiceInterface
    */
    function checkUserData(string $document_number,string $phone_number);
    
+   /**
+   * @param int $user_id
+   * @return int; 
+   */
+   function setUserToken(int $user_id);
+   
 }

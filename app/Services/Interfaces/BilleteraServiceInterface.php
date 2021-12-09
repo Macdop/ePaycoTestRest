@@ -23,4 +23,12 @@ interface BilleteraServiceInterface
    */
   function checkWallet(int $user);
 
+  /**
+   * @param float $value
+   * @param int $user_id
+   * @param string $recipient_document_number
+   * @return void; 
+   */
+  function TransferValue(float $value,int $user_id,string $recipient_user_id);
+
 }
