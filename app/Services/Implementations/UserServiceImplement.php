@@ -23,4 +23,13 @@ class UserServiceImplement implements UserServiceInterface
       $this->model->create($user);
    }
 
+   /**
+    * Get user id by document number
+    */
+   function getUserIdByDocumentNumber($document_number)
+   {
+      $user = $this->model->where('document_number', $document_number)->first();
+      return $user->id;
+   }
+
 }

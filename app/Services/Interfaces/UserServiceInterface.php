@@ -6,8 +6,15 @@ interface UserServiceInterface
 { 
    /**
    * @param array $user
-   * @return boolean; 
+   * @return int; 
    */
    function registerUser(array $user);
-
+   
+   /**
+   * @param string $document_number
+   * @return int; 
+   */
+   function getUserIdByDocumentNumber(string $documentNumber);
+   
+   
 }
