@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\Implementations\UserServiceImplement;
 use App\Services\Implementations\BilleteraServiceImplement;
 use App\Validator\RecargaValidator;
+use App\Validator\CheckWalletValidator;
 
 class BilleteraController extends Controller
 {
@@ -24,11 +25,17 @@ class BilleteraController extends Controller
     */
     private $recargaValidator;
     
-    public function __construct(BilleteraServiceImplement $billeteraService, Request $request, RecargaValidator $recargaValidator)
+    /**
+    * @var CheckWalletValidator
+    */
+    private $checkWalletValidator;
+    
+    public function __construct(BilleteraServiceImplement $billeteraService, Request $request, RecargaValidator $recargaValidator,CheckWalletValidator $checkWalletValidator)
     {
         $this->billeteraService = $billeteraService;
         $this->request = $request;
         $this->recargaValidator = $recargaValidator;
+        $this->checkWalletValidator = $checkWalletValidator;
     }
     
     public function registerDeposit()
@@ -58,6 +65,14 @@ class BilleteraController extends Controller
     
     public function checkWallet()
     {
+        $validator = $this->checkWalletValidator->validate($this->request->all());
+        
+        if ($validator->fails())
+        {
+            $response = response(['success' => false,'cod_error' => 422,'message_eror' => $validator->errors()],422);
+            return $response;
+        }
+        
         $userService = new UserServiceImplement();
         $user = $userService->checkUserData($this->request->document_number,$this->request->phone);
         
@@ -68,7 +83,7 @@ class BilleteraController extends Controller
         }
         
         $walletBalance = $this->billeteraService->checkWallet($user->id);
-               
+        
         $response = response(['success' => true,'balance' => $walletBalance,'cod_error' => 00,'message_error' => 'Sin error',],200);
         
         return $response;
