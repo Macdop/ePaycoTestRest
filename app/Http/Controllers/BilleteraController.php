@@ -8,6 +8,8 @@ use App\Services\Implementations\BilleteraServiceImplement;
 use App\Services\Implementations\TransacctionTokenServiceImplement;
 use App\Validator\RecargaValidator;
 use App\Validator\CheckWalletValidator;
+use App\Validator\PagarValidator;
+use App\Validator\confirmarPagoValidator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\tokenPago;
 
@@ -94,6 +96,13 @@ class BilleteraController extends Controller
     
     public function sendDeposit()
     {   
+        $validator = $this->pagarValidator->validate($this->request->all());
+
+        if ($validator->fails())
+        {
+            $response = response(['success' => false,'cod_error' => 422,'message_eror' => $validator->errors()],422);
+            return $response;
+        }
         
         $userService = new UserServiceImplement();
         $user = $userService->checkUserData($this->request->document_number,$this->request->phone);
@@ -119,9 +128,9 @@ class BilleteraController extends Controller
             $response = response(['success' => false,'cod_error' => 422,'message_eror' => 'No tiene saldo suficiente'],422);
             return $response;
         }
-
+        
         $trassactionToken = new TransacctionTokenServiceImplement();
-
+        
         $recipient_document_number = $this->request->recipient_document_number;
         $value = $this->request->value;
         $transacction = $trassactionToken->setTransacctionToken($user->id,$recipient_document_number,$value);
@@ -129,31 +138,37 @@ class BilleteraController extends Controller
         $name = $user->firstname;
         $url = url('/');
         $message_token = "Hello ".$name.',This is your token:'.$transacction['token'];
-
-        /*
+        
         $recipients = [$email];
         Mail::raw($message_token, function ($message) use ($recipients) {
             $message->subject('Token Confirmation');
             $message->to($recipients);
         });
-        */
-        
+            
         $response = response(['success' => true,'cod_error' => 00,'message_error' => 'Se ha enviado un correo para confirmar el pago','transacction_number'=>$transacction['transacction']],200);
         
         return $response;
     }
-
+    
     public function DepositConfirm()
     {
+        $validator = $this->confirmarPagoValidator->validate($this->request->all());
+        
+        if ($validator->fails())
+        {
+            $response = response(['success' => false,'cod_error' => 422,'message_eror' => $validator->errors()],422);
+            return $response;
+        }
+
         $trassactionToken = new TransacctionTokenServiceImplement();       
         $transacction = $trassactionToken->getTransacctionToken($this->request->token,$this->request->transacction_number);
-
+        
         if(!$transacction)
         {
             $response = response(['success' => false,'cod_error' => 422,'message_eror' => 'El token no existe'],422);
             return $response;
         }
-
+        
         $userService = new UserServiceImplement();
         $recipient = $userService->getUserIdByDocumentNumber($transacction->recipient_document_number);
         

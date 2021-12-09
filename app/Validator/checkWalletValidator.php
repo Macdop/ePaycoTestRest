@@ -34,7 +34,8 @@ class checkWalletValidator
    public function messages()
    {
       return [
-         
+         'document_number.required' => 'El campo documento es obligatorio',
+         'phone.required' => 'El campo telefono es obligatorio',
       ];
    }
 }

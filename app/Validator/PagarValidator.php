@@ -5,7 +5,7 @@ namespace App\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class RecargaValidator
+class PagarValidator
 {
    /**
    * @var Request
@@ -29,6 +29,7 @@ class RecargaValidator
          'document_number' => 'required',
          'phone' => 'required',
          'value' => 'required|numeric',
+         'recipient_document_number' => 'required',
       ];
    }
    
@@ -39,6 +40,7 @@ class RecargaValidator
          'phone.required' => 'O campo telefone é obrigatório',
          'value.required' => 'O campo valor é obrigatório',
          'value.numeric' => 'O campo valor deve ser numérico',
+         'recipient_document_number.required' => 'O campo documento do destinatário é obrigatório',
       ];
    }
 }

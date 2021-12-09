@@ -37,7 +37,14 @@ class UserValidator
    public function messages()
    {
       return [
-         
+         firstname.required => 'El campo nombre es obligatorio',
+         lastname.required => 'El campo apellido es obligatorio',
+         document_number.required => 'El campo documento es obligatorio',
+         document_number.unique => 'El documento ya existe',
+         email.required => 'El campo email es obligatorio',
+         email.email => 'El email no es valido',
+         email.unique => 'El email ya existe',
+         phone.required => 'El campo telefono es obligatorio',
       ];
    }
 }

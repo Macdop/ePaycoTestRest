@@ -5,7 +5,7 @@ namespace App\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class RecargaValidator
+class PagarValidator
 {
    /**
    * @var Request
@@ -26,19 +26,18 @@ class RecargaValidator
    public function rules()
    {
       return [
-         'document_number' => 'required',
-         'phone' => 'required',
-         'value' => 'required|numeric',
+         'transacction_number' => 'required|numeric',
+         'token' => 'required|string',
       ];
    }
    
    public function messages()
    {
       return [
-         'document_number.required' => 'O campo documento é obrigatório',
-         'phone.required' => 'O campo telefone é obrigatório',
-         'value.required' => 'O campo valor é obrigatório',
-         'value.numeric' => 'O campo valor deve ser numérico',
+         'transacction_number.required' => 'El número de transacción es requerido',
+         'transacction_number.numeric' => 'El número de transacción debe ser un número',
+         'token.required' => 'El token es requerido',
+         'token.string' => 'El token debe ser una cadena de caracteres',
       ];
    }
 }
