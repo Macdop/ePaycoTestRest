@@ -9,7 +9,7 @@ use App\Services\Implementations\TransacctionTokenServiceImplement;
 use App\Validator\RecargaValidator;
 use App\Validator\CheckWalletValidator;
 use App\Validator\PagarValidator;
-use App\Validator\confirmarPagoValidator;
+use App\Validator\ConfirmarpagoValidator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\tokenPago;
 
@@ -34,13 +34,25 @@ class BilleteraController extends Controller
     * @var CheckWalletValidator
     */
     private $checkWalletValidator;
+
+        /**
+    * @var PagarValidator
+    */
+    private $pagarValidator;
+
+        /**
+    * @var ConfirmarpagoValidator
+    */
+    private $confirmarPagoValidator;
     
-    public function __construct(BilleteraServiceImplement $billeteraService, Request $request, RecargaValidator $recargaValidator,CheckWalletValidator $checkWalletValidator)
+    public function __construct(BilleteraServiceImplement $billeteraService, Request $request, RecargaValidator $recargaValidator,CheckWalletValidator $checkWalletValidator,PagarValidator $pagarValidator,ConfirmarpagoValidator $confirmarPagoValidator)
     {
         $this->billeteraService = $billeteraService;
         $this->request = $request;
         $this->recargaValidator = $recargaValidator;
         $this->checkWalletValidator = $checkWalletValidator;
+        $this->pagarValidator = $pagarValidator;
+        $this->confirmarPagoValidator = $confirmarPagoValidator;
     }
     
     public function registerDeposit()
